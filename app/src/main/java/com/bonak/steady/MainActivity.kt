@@ -131,5 +131,15 @@ class MainActivity : BaseActivity() {
         val dialog = builder.create()
         dialog.show()
     }
+fun main() {
+    embeddedServer(Netty, port = 8080) {
+        install(ContentNegotiation) { json() }
+        install(CallLogging)
+        DatabaseFactory.init()  // Initialize database
+        routing {
+            statsRoutes(StatsService())  // Register stats routes
+        }
+    }.start(wait = true)
+}
 
 }
